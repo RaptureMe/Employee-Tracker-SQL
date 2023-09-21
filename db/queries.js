@@ -28,6 +28,10 @@ class DataBase {
     addEmployee(userEmployee) {
         return this.connection.promise().query("INSERT INTO employee SET ?", userEmployee)
     }
+
+    updateEmployee(roleId, employeeId) {
+        return this.connection.promise().query("UPDATE employee SET role_id =? WHERE id=?", [roleId, employeeId])
+    }
 }
 
 

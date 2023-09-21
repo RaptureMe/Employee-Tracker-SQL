@@ -26,11 +26,16 @@ const menu = () => {
             case "add a role":
                 userRole()
                 break;
+            case "add an employee":
+                userEmployee()
+                break;
+            case "update an employee role":
+                updateEmployee()
+                break;
             default:
                 break;
         }
-    }
-    )
+    })
 };
 
 function departments() {
@@ -63,7 +68,7 @@ function userDepartment() {
             type: 'input',
             message: 'What department would you like to add?',
             name: 'name'
-        }       
+        }
     ]).then((name) => {
         queries.addDepartment(name).then(() => {
             console.log(name + "department has been added!")
@@ -76,7 +81,7 @@ function userDepartment() {
 function userRole() {
     queries.getAllDepartments().then(([departments]) => {
         const departmentChoices = departments.map((department) => {
-            return {value: department.id, name: department.name}
+            return { value: department.id, name: department.name }
         })
         // console.log(departmentChoices)
         inquirer.prompt([
@@ -96,7 +101,7 @@ function userRole() {
                 name: 'department_id',
                 choices: departmentChoices
 
-            }       
+            }
         ]).then((role) => {
             queries.addRole(role).then(() => {
                 console.log(role.title + "Role has been added!")
@@ -110,11 +115,76 @@ function userRole() {
 function userEmployee() {
     queries.getAllRoles().then(([roles]) => {
         const roleChoices = roles.map((role) => {
-            return {value: role.id, name: role.title}
+            return { value: role.id, name: role.title }
         })
         queries.getAllEmployees().then(([employees]) => {
             const managerChoices = employees.map((employee) => {
-                return {value: employee.id, name: employee.first_name + " " + employee.last_name}
+                return { value: employee.id, name: employee.first_name + " " + employee.last_name }
+            })
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    message: 'What is employees first name?',
+                    name: 'first_name'
+                },
+                {
+                    type: 'input',
+                    message: 'What is employees last name?',
+                    name: 'last_name'
+                },
+                {
+                    type: 'list',
+                    message: 'What role is the employee:',
+                    name: 'role_id',
+                    choices: roleChoices
+
+                },
+                {
+                    type: 'list',
+                    message: 'Who is this employees manager:',
+                    name: 'manager_id',
+                    choices: [...managerChoices, { value: null, name: "No Manager" }]
+                }
+            ]).then((employee) => {
+                queries.addEmployee(employee).then(() => {
+                    console.log(employee.first_name + " " + employee.last_name + " " + "Employee has been added!")
+                }).then(() => {
+                    menu()
+                })
+            })
+        })
+    })
+}
+
+function updateEmployee() {
+    queries.getAllRoles().then(([roles]) => {
+        const roleChoices = roles.map((role) => {
+            return { value: role.id, name: role.title }
+        })
+        queries.getAllEmployees().then(([employees]) => {
+            const employeeChoices = employees.map((employee) => {
+                return { value: employee.id, name: employee.first_name + " " + employee.last_name }
+            })
+
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    message: 'What employee would you like to change:',
+                    name: 'employee_id',
+                    choices: employeeChoices
+                },
+                {
+                    type: 'list',
+                    message: 'What is the employees new role:',
+                    name: 'role_id',
+                    choices: roleChoices
+                }
+            ]).then((res) => {
+                queries.updateEmployee(res.role_id, res.employee_id).then(() => {
+                    console.log("Employee has been changed!")
+                }).then(() => {
+                    menu()
+                })
             })
         })
     })

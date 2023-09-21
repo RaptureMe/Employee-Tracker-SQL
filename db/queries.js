@@ -20,6 +20,15 @@ class DataBase {
     addDepartment(userDepartment){
         return this.connection.promise().query("INSERT INTO department SET ?", userDepartment)
     }
+
+    addRole(userRole){
+        return this.connection.promise().query("INSERT INTO role SET ?", userRole)
+    }
+
+    addEmployee(userEmployee) {
+        return this.connection.promise().query("INSERT INTO employee SET ?", userEmployee)
+    }
 }
+
 
 module.exports = new DataBase(connection)

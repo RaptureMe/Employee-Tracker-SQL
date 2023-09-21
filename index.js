@@ -20,6 +20,12 @@ const menu = () => {
             case "view all employees":
                 employees()
                 break;
+            case "add a department":
+                userDepartment()
+                break;
+            case "add a role":
+                userRole()
+                break;
             default:
                 break;
         }
@@ -58,7 +64,60 @@ function userDepartment() {
             message: 'What department would you like to add?',
             name: 'name'
         }       
-    ])
+    ]).then((name) => {
+        queries.addDepartment(name).then(() => {
+            console.log(name + "department has been added!")
+        }).then(() => {
+            menu()
+        })
+    })
+}
+
+function userRole() {
+    queries.getAllDepartments().then(([departments]) => {
+        const departmentChoices = departments.map((department) => {
+            return {value: department.id, name: department.name}
+        })
+        // console.log(departmentChoices)
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: 'What role would you like to add?',
+                name: 'title'
+            },
+            {
+                type: 'input',
+                message: 'What is this roles salary?',
+                name: 'salary'
+            },
+            {
+                type: 'list',
+                message: 'Here are the departments to choose from:',
+                name: 'department_id',
+                choices: departmentChoices
+
+            }       
+        ]).then((role) => {
+            queries.addRole(role).then(() => {
+                console.log(role.title + "Role has been added!")
+            }).then(() => {
+                menu()
+            })
+        })
+    })
+}
+
+function userEmployee() {
+    queries.getAllRoles().then(([roles]) => {
+        const roleChoices = roles.map((role) => {
+            return {value: role.id, name: role.title}
+        })
+        queries.getAllEmployees().then(([employees]) => {
+            const managerChoices = employees.map((employee) => {
+                return {value: employee.id, name: employee.first_name + " " + employee.last_name}
+            })
+        })
+    })
 }
 
 menu()

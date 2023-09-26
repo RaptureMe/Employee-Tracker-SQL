@@ -1,5 +1,14 @@
 const inquirer = require("inquirer");
 const queries = require('./db/queries');
+const logo = require('asciiart-logo');
+
+init();
+
+function init() {
+    const menuLogo = logo({ name: "Employee Manager" }).render();
+
+    console.log(menuLogo);
+}
 
 const menu = () => {
     inquirer.prompt([
@@ -190,4 +199,4 @@ function updateEmployee() {
     })
 }
 
-menu()
+menu ();

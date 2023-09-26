@@ -10,11 +10,16 @@ class DataBase {
     }
 
     getAllRoles(){
-        return this.connection.promise().query("SELECT * FROM role")
+        return this.connection.promise().query(`
+        SELECT role.id, role.title, role.salary, department.name FROM role 
+        JOIN department ON department.id = role.department_id;`)
     }
 
     getAllEmployees(){
-        return this.connection.promise().query("SELECT * FROM employee")
+        return this.connection.promise().query(
+            `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name FROM employee 
+            JOIN role ON employee.role_id = role.id
+            JOIN department ON department.id = role.department_id;`)
     }
 
     addDepartment(userDepartment){

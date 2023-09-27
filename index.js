@@ -5,7 +5,7 @@ const logo = require('asciiart-logo');
 init();
 
 function init() {
-    const menuLogo = logo({ name: "Employee Manager" }).render();
+    const menuLogo = logo({ name: "Employee Tracker" }).render();
 
     console.log(menuLogo);
 }

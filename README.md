@@ -23,8 +23,8 @@
   
   Link to video walkthrough: https://drive.google.com/file/d/1gGc13dDNoHlct01GL87D0FfW2kmhA4bJ/view
   
-  ![Start Screen](assets/Screenshot%202023-09-26%20at%209.45.14%20PM.png)
-  ![Menu](assets/Screenshot%202023-09-26%20at%209.45.58%20PM.png)
+  ![Start Screen](Assets/Screenshot%202023-09-26%20at%209.45.14%20PM.png)
+  ![Menu](Assets/Screenshot%202023-09-26%20at%209.45.58%20PM.png)
   
   ## Credits
   
